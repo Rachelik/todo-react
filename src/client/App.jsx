@@ -1,5 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
+import moment from 'moment';
 
 class App extends React.Component {
 
@@ -26,7 +27,8 @@ class App extends React.Component {
 
     const newItem={
       id: num,
-      value: this.state.newItem
+      value: this.state.newItem,
+      date: moment().format()
     };
 
     const currentList = [newItem, ...this.state.list];
@@ -70,8 +72,11 @@ class App extends React.Component {
                   X
                 </button>
               </div>
-              <div>
+              <div className="item-description">
                 {item.value}
+              </div>
+              <div className="created-date">
+                {item.date}
               </div>
             </div>
           </li>
@@ -81,11 +86,11 @@ class App extends React.Component {
     return (
       <div className="App">
         <div>
-          <input type="text"
+          <input type="text" className="input-field"
             value={this.state.newItem}
             onChange={e => this.updateInput("newItem", e.target.value)}
           />
-          <button onClick={()=>this.clickHandler()}>
+          <button className="submit-btn" onClick={()=>this.clickHandler()}>
             Add Item
           </button>
 
