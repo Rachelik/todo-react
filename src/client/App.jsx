@@ -15,7 +15,8 @@ class App extends React.Component {
       list: [],
       count: 0,
       previousValues: [],
-      error: ""
+      error: "",
+      deletedList: []
     };
   };
 
@@ -62,8 +63,18 @@ class App extends React.Component {
   deleteItem(id){
     const list = [...this.state.list];
     const updatedList = list.filter(item => item.id != id);
-    this.setState({list: updatedList});
+
+    const deletedItem = list.filter(item => item.id == id);
+    const deletedList = [deletedItem, ...this.state.deletedList];
+    this.setState({list: updatedList, deletedList: deletedList});
+    console.log(deletedList)
   }
+
+  // deletedItem(id){
+  //   const deletedItems = list.filter(item => item.id == id);
+  //   this.setState({deletedList: deletedItem})
+  // }
+
 
   render() {
     return (
@@ -77,6 +88,9 @@ class App extends React.Component {
         <br/>
 
         <ItemList list={this.state.list} deleteItem={(id)=>this.deleteItem(id)}/>
+
+        <br/>
+        <DeletedList deletedList={this.state.deletedList}/>
       </div>
     );
   }
@@ -117,6 +131,7 @@ class ItemList extends React.Component{
     });
     return (
       <div>
+        <h3>To Do List</h3>
         <ul className="to-do-list">
           {listElements}
         </ul>
@@ -126,3 +141,30 @@ class ItemList extends React.Component{
 }
 
 export default hot(module)(App);
+
+class DeletedList extends React.Component {
+  render(){
+    const deletedListElements = this.props.deletedList.map((item, id)=>{
+      return(
+        <li key={id}>
+          <div className="each-list">
+            <div className="item-description">
+              {item.value}
+            </div>
+            <div className="created-date">
+              {item.date}
+            </div>
+          </div>
+        </li>
+      )
+    });
+    return(
+      <div>
+        <h3>Deleted List</h3>
+        <ul className="to-do-list">
+          {deletedListElements}
+        </ul>
+      </div>
+    );
+  }
+}
