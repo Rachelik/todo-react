@@ -64,6 +64,7 @@ class App extends React.Component {
     const updatedList = list.filter(item => item.id != id);
     this.setState({list: updatedList});
   }
+
   render() {
     return (
       <div className="App">
@@ -75,7 +76,7 @@ class App extends React.Component {
         <p className="error-message">{this.state.error}</p>
         <br/>
 
-        <ItemList list={this.state.list} deleteItem={this.deleteItem}/>
+        <ItemList list={this.state.list} deleteItem={(id)=>this.deleteItem(id)}/>
       </div>
     );
   }
