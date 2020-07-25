@@ -27,10 +27,10 @@ class App extends React.Component {
     });
   };
 
-  clickHandler(){
-    let num = this.state.count+1;
+  clickHandler() {
+    let num = this.state.count + 1;
 
-    const newItem={
+    const newItem = {
       id: num,
       value: this.state.newItem,
       date: moment().format('MMMM Do YYYY, h:mm:ss a')
@@ -41,7 +41,7 @@ class App extends React.Component {
     let updateObj = {
       count: num,
       list: currentList,
-      newItem:""
+      newItem: ""
     };
 
     let message = "";
@@ -60,14 +60,14 @@ class App extends React.Component {
     };
   };
 
-  deleteItem(id){
+  deleteItem(id) {
     const list = [...this.state.list];
     const updatedList = list.filter(item => item.id != id);
-
     const deletedItem = list.filter(item => item.id == id);
     const deletedList = [deletedItem, ...this.state.deletedList];
-    this.setState({list: updatedList, deletedList: deletedList});
+    this.setState({ list: updatedList, deletedList: deletedList });
     console.log(deletedList)
+    console.log(updatedList)
   }
 
   // deletedItem(id){
@@ -83,14 +83,14 @@ class App extends React.Component {
           value={this.state.newItem}
           onChange={(event) => this.updateInput("newItem", event.target.value)}
         />
-        <Form clickHandler={()=>{this.clickHandler()}} newItem={this.state.newItem}/>
+        <Form clickHandler={() => { this.clickHandler() }} newItem={this.state.newItem} />
         <p className="error-message">{this.state.error}</p>
-        <br/>
+        <br />
 
-        <ItemList list={this.state.list} deleteItem={(id)=>this.deleteItem(id)}/>
+        <ItemList list={this.state.list} deleteItem={(id) => this.deleteItem(id)} />
 
-        <br/>
-        <DeletedList deletedList={this.state.deletedList}/>
+        <br />
+        <DeletedList deletedList={this.state.deletedList} />
       </div>
     );
   }
@@ -100,7 +100,7 @@ class Form extends React.Component {
   render() {
     return (
       <div>
-        <button className="submit-btn" onClick={()=>this.props.clickHandler()}>
+        <button className="submit-btn" onClick={() => this.props.clickHandler()}>
           Add Item
         </button>
       </div>
@@ -108,14 +108,14 @@ class Form extends React.Component {
   }
 }
 
-class ItemList extends React.Component{
-  render(){
-    const listElements = this.props.list.map((item)=>{
-      return(
+class ItemList extends React.Component {
+  render() {
+    const listElements = this.props.list.map((item) => {
+      return (
         <li key={item.id}>
           <div className="each-list">
             <div className="btn-check">
-              <button onClick = {() => {this.props.deleteItem(item.id)}}>
+              <button onClick={() => { this.props.deleteItem(item.id) }}>
                 X
               </button>
             </div>
@@ -140,31 +140,36 @@ class ItemList extends React.Component{
   }
 }
 
-export default hot(module)(App);
-
 class DeletedList extends React.Component {
-  render(){
-    const deletedListElements = this.props.deletedList.map((item, id)=>{
-      return(
-        <li key={id}>
+  render() {
+
+    const deletedListElements = this.props.deletedList.map((item) => {
+      console.log(item.value)
+      return (
+        <li key={"deleted-" + item[0].id} >
           <div className="each-list">
             <div className="item-description">
-              {item.value}
+              {item[0].value}
             </div>
             <div className="created-date">
-              {item.date}
+              {item[0].date}
             </div>
           </div>
-        </li>
+        </li >
       )
     });
-    return(
+    return (
       <div>
         <h3>Deleted List</h3>
         <ul className="to-do-list">
           {deletedListElements}
         </ul>
-      </div>
+        <p>what</p>
+      </div >
     );
   }
 }
+
+export default hot(module)(App);
+
+
